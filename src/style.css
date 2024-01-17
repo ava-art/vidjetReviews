@@ -3,10 +3,6 @@
     --default-dark-color: #0e6f69;
   }
 
-/* #title{
-  display: none
-} */
-
 @charset "UTF-8";
 #sp-listing-reviews-widget *,#sp-product-questions-widget *,#sp-product-reviews-widget *,.sp-listing-inline-rating-widget *,.sp-product-inline-rating-widget * {
   box-sizing:border-box
@@ -182,6 +178,7 @@
   font-size:2em;
   margin:.67em 0
 }
+
 #sp-listing-reviews-widget mark,
 #sp-product-questions-widget mark,
 #sp-product-reviews-widget mark,
@@ -1286,11 +1283,7 @@
   padding-bottom:10px;
   border-bottom:1px solid #e2e4e8
 }
-/* @media (max-width:991px) {
-  #sp-product-reviews-widget .sp-summary {
-    display:none
-  }
-} */
+
 @media (max-width:880px) {
   #sp-product-reviews-widget .sp-summary-actions {
     display: flex;
@@ -1303,11 +1296,7 @@
 #sp-product-reviews-widget .sp-summary-gallery {
   margin-bottom:10px
 }
-@media (max-width:991px) {
-  /* #sp-product-reviews-widget .sp-summary-gallery {
-    display:none
-  } */
-}
+
 #sp-product-reviews-widget .sp-gallery-label {
   font-weight:700;
   margin-bottom:.5em
@@ -1358,16 +1347,15 @@
   padding:0 2em 0 .75em;
   border:none;
   outline:0;
-  line-height:calc(2.5em - 4px);
+  line-height:1;
+  font-size: 16px;
   background:0 0;
   cursor:pointer;
   -webkit-appearance:none;
   -moz-appearance:none;
   appearance:none
 }
-#sp-product-reviews-widget .sp-summary-sort-selector-real-select::-ms-expand {
-  display:none
-}
+
 #sp-product-reviews-widget .sp-summary-actions-primary-button {
   height:40px;
   padding:0 10px;
@@ -1409,11 +1397,7 @@
 #sp-product-reviews-widget .sp-content-actions {
   margin-bottom:40px
 }
-@media (min-width:991px) {
-  #sp-product-reviews-widget .sp-content-actions {
-    display:none
-  }
-}
+
 #sp-product-reviews-widget .sp-content-actions-primary-button {
   height:40px;
   padding:0 10px;
@@ -1634,11 +1618,7 @@
 #sp-product-reviews-widget .sp-content-gallery {
   margin-top:20px
 }
-@media (min-width:991px) {
-  #sp-product-reviews-widget .sp-content-gallery {
-    display:none
-  }
-}
+
 #sp-product-reviews-widget .sp-content-recommended {
   margin-top:10px;
   font-size:calc(1rem - 2px)
@@ -1701,11 +1681,7 @@
   width:160px;
   overflow:hidden
 }
-@media (max-width:599px) {
-  #sp-listing-reviews-widget .sp-listing-review .sp-review-aside {
-    display:none
-  }
-}
+
 @media (min-width:600px) {
   #sp-listing-reviews-widget .sp-listing-review .sp-review-main {
     width:calc(100% - 160px)
@@ -1719,10 +1695,7 @@
   max-width:100%;
   max-height:100%
 }
-#sp-listing-reviews-widget .sp-listing-review .sp-review-footer,
-#sp-listing-reviews-widget .sp-listing-review .sp-review-rating-details {
-  display:none
-}
+
 #sp-listing-reviews-widget .sp-listing-review .sp-context-name {
   display:block;
   margin-bottom:10px

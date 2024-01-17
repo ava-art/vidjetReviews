@@ -1,16 +1,17 @@
 <script setup lang="ts">
-
 import { Fancybox } from "@fancyapps/ui";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
-import Video from '/src/components/media/Video.vue'
-import Photo from '/src/components/media/Photo.vue'
-
+import Video from "/src/components/media/Video.vue";
+import Photo from "/src/components/media/Photo.vue";
 
 const props = defineProps({
   item: {
     type: Object,
     required: true,
     default: () => {},
+  },
+  media: {
+    type: Number,
   },
 });
 
@@ -20,7 +21,6 @@ Fancybox.bind("[data-fancybox]", {
 </script>
 
 <template>
-  <Video :item="item" :key="item[0]" />
-  <Photo :item="item" :key="item[0]" />
-
+  <Video :item="item" :key="item[0]" :media="media" />
+  <Photo :item="item" :key="item[0]" :media="media" />
 </template>

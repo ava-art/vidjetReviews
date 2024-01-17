@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { useReviewStore } from "../../stores/ReviewStore";
-
-const reviewStore = useReviewStore();
 
 const props = defineProps({
   item: {
@@ -9,7 +6,13 @@ const props = defineProps({
     required: true,
     default: () => {},
   },
+  media: {
+    type: Number,
+  },
 });
+
+
+
 </script>
 
 <template>
@@ -38,7 +41,7 @@ const props = defineProps({
           'url(https://ava-site.ru/reviews/photos/webp/' + item[2] + '.webp',
       }"
     >
-      <div class="more-media-review">+{{ reviewStore.mediaCutArMedia[1] }}</div>
+      <div class="more-media-review">+{{ media }}</div>
     </div>
     <div
       v-if="item[1] == 'photo' && item[0] > 7"
@@ -70,7 +73,7 @@ const props = defineProps({
           'url(https://ava-site.ru/reviews/photos/webp/' + item[2] + '.webp',
       }"
     >
-      <div class="more-media-review">+{{ reviewStore.mediaCutArMedia[1] }}</div>
+      <div class="more-media-review">+{{ media }}</div>
     </div>
     <div
       v-if="item[1] == 'photo' && item[0] > 7"

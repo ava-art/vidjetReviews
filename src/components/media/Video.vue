@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import PlusReview from '../svg/PlusReview.vue'
-import { useReviewStore } from "../../stores/ReviewStore";
-
-const reviewStore = useReviewStore();
+import PlusReview from "../svg/PlusReview.vue";
 
 const props = defineProps({
   item: {
@@ -10,16 +7,20 @@ const props = defineProps({
     required: true,
     default: () => {},
   },
+  media: {
+    type: Number,
+  },
 });
-
 </script>
 
 <template>
-<a v-if="item[1] == 'video'"
-    
+  <a
+    v-if="item[1] == 'video'"
     :href="'https://ava-site.ru/reviews/videos/' + item[2] + '.mp4'"
     data-fancybox="gallery-media"
-    :data-caption="'&lt;center&gt;'+ item[4] + '&lt;br /&gt;' + item[3] + '&lt;/center&gt;' "
+    :data-caption="
+      '&lt;center&gt;' + item[4] + '&lt;br /&gt;' + item[3] + '&lt;/center&gt;'
+    "
   >
     <div
       class="block-media-review"
@@ -29,7 +30,7 @@ const props = defineProps({
           'url(https://ava-site.ru/reviews/videos/webp/' + item[2] + '.webp)',
       }"
     >
-    <PlusReview />
+      <PlusReview />
     </div>
     <div
       class="block-media-review"
@@ -40,8 +41,7 @@ const props = defineProps({
       }"
     >
       <PlusReview />
-      <div class="more-media-review">+{{ reviewStore.mediaCutArMedia[1] }}</div>
+      <div class="more-media-review">+{{ media }}</div>
     </div>
   </a>
-
 </template>
