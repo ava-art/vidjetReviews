@@ -3,8 +3,11 @@
 
 import Review from "./components/Review.vue";
 import Media from "./components/Media.vue";
+import SwiperMedia from "./components/SwiperMedia.vue";
+
 import "./style.css";
 import { computed, getCurrentInstance, ref } from "vue";
+
 
 // const reviewStore = useReviewStore();
 
@@ -71,6 +74,7 @@ const clientBuyThis = Number(
 const reviews = ref<Review[]>([]);
 const rating = ref(0);
 const middleRating = ref(0);
+const viewSwiper = ref(false);
 const mediaCutArMedia = ref([]);
 const sort = ref<"new" | "old" | "top" | "bottom">("new");
 const ratingCount = ref([
@@ -226,11 +230,14 @@ const getReviews = async (search: string) => {
     }
   });
 
-  console.log(newAr);
 
   mediaCutArMedia.value = [newAr, newAr.length - 8];
   reviews.value = reviewContent;
 };
+
+const onViewSwiper = () =>{
+  viewSwiper.value = !viewSwiper
+}
 
 getReviews(title);
 </script>
@@ -245,6 +252,10 @@ getReviews(title);
         :item="item"
         :media="mediaCutArMedia[1]"
       />
+    </div>
+    <div style=" ;position: fixed; width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center; top: 0; left: 0; background: #222222c0; z-index: 999;">
+
+      <SwiperMedia :items="mediaCutArMedia[0]" />
     </div>
     <div class="sp-widget-content">
       <!-- Summary -->

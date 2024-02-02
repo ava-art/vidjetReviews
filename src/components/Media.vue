@@ -11,7 +11,7 @@ const props = defineProps({
     default: () => {},
   },
   media: {
-    type: Number,
+    type: Number
   },
 });
 
@@ -23,4 +23,5 @@ Fancybox.bind("[data-fancybox]", {
 <template>
   <Video :item="item" :key="item[0]" :media="media" />
   <Photo :item="item" :key="item[0]" :media="media" />
+  
 </template>
