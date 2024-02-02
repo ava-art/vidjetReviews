@@ -7,11 +7,17 @@ defineProps({
     type: Object as PropType<Review>,
     required: true,
   },
+  countReviews: {
+    type: Number
+  },
+  index:{
+    type: Number
+  }
 });
 </script>
 
 <template>
-  <div class="sp-review sp-review-from-syndication">
+  <div class="sp-review sp-review-from-syndication" v-if="index < countReviews">
     <!--noindex-->
 
     <!-- Header -->

@@ -74,6 +74,7 @@ const clientBuyThis = Number(
 const reviews = ref<Review[]>([]);
 const rating = ref(0);
 const middleRating = ref(0);
+const countReviews = ref(30);
 const viewSwiper = ref(false);
 const mediaCutArMedia = ref([]);
 const sort = ref<"new" | "old" | "top" | "bottom">("new");
@@ -236,12 +237,13 @@ const getReviews = async (search: string) => {
 };
 
 const onViewSwiper = () =>{
-  console.log(viewSwiper);
-  
   viewSwiper.value = !viewSwiper.value
 }
 
 getReviews(title);
+const onViewMore = () =>{
+  countReviews.value = countReviews.value + 20
+}
 </script>
 
 <template>
@@ -255,8 +257,11 @@ getReviews(title);
         :media="mediaCutArMedia[1]"
       />
     </div>
-    <div v-if="viewSwiper" style=" ;position: fixed; width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center; top: 0; left: 0; background: #222222c0; z-index: 999;">
-
+    <div class="wrap-review-modal" v-if="viewSwiper">
+      <div class="btn-close-modal-review" @click="onViewSwiper">
+        <i class="line-close one"></i>
+        <i class="line-close two"></i>
+      </div>
       <SwiperMedia :items="mediaCutArMedia[0]" />
     </div>
     <div class="sp-widget-content">
@@ -311,8 +316,11 @@ getReviews(title);
               v-for="(review, index) in reviewsComputed"
               :key="`test-${index}`"
               :review="review"
+              :countReviews="countReviews"
+              :index="index"
             />
           </div>
+          <div class="review-view-more" @click="onViewMore" v-if="rating > countReviews">Показать ещё</div>
         </div>
 
         <div class="sp-content-summary">

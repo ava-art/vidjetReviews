@@ -30,10 +30,11 @@ export default {
   },
   setup() {
     const onSwiper = (swiper) => {
-      console.log(swiper);
+      // console.log(swiper);
     };
-    const onSlideChange = () => {
-      console.log("slide change");
+    const onSlideChange = (swiper) => {
+      // console.log(swiper);
+      
     };
     const thumbsSwiper = ref(null);
     const setThumbsSwiper = (swiper) => {
@@ -85,6 +86,7 @@ export default {
 
               <source
                 :src="'https://ava-site.ru/reviews/videos/' + item[2] + '.mp4'"
+                
                 type="video/mp4"
                 style="width: 100%; max-height: 75vh"
               />
@@ -96,7 +98,9 @@ export default {
               :src="'https://ava-site.ru/reviews/photos/' + item[2] + '.jpeg'"
               alt=""
               style="width: 100%; max-height: 75vh"
+              class="swiper-lazy" 
             />
+            <!-- <div class="swiper-lazy-preloader"></div> -->
           </div>
         </div>
       </swiper-slide>
