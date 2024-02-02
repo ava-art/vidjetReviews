@@ -8,10 +8,12 @@ defineProps({
     required: true,
   },
   countReviews: {
-    type: Number
+    type: Number,
+    required: true,
   },
   index:{
-    type: Number
+    type: Number,
+    required: true,
   }
 });
 </script>

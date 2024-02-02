@@ -14,7 +14,14 @@ const props = defineProps({
 </script>
 
 <template>
-  <div v-if="item[1] == 'video'">
+  <a
+    v-if="item[1] == 'video'"
+    :href="'https://ava-site.ru/reviews/videos/' + item[2] + '.mp4'"
+    data-fancybox="gallery-media"
+    :data-caption="
+      '&lt;center&gt;' + item[4] + '&lt;br /&gt;' + item[3] + '&lt;/center&gt;'
+    "
+  >
     <div
       class="block-media-review"
       v-if="item[1] == 'video' && item[0] < 7"
@@ -36,5 +43,5 @@ const props = defineProps({
       <PlusReview />
       <div class="more-media-review">+{{ media }}</div>
     </div>
-  </div>
+  </a>
 </template>

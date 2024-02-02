@@ -3,10 +3,10 @@
 
 import Review from "./components/Review.vue";
 import Media from "./components/Media.vue";
-import SwiperMedia from "./components/SwiperMedia.vue";
 
 import "./style.css";
 import { computed, getCurrentInstance, ref } from "vue";
+import NewReview from "./components/NewReview.vue";
 
 
 // const reviewStore = useReviewStore();
@@ -74,7 +74,7 @@ const clientBuyThis = Number(
 const reviews = ref<Review[]>([]);
 const rating = ref(0);
 const middleRating = ref(0);
-const countReviews = ref(30);
+const countReviews = ref(15);
 const viewSwiper = ref(false);
 const mediaCutArMedia = ref([]);
 const sort = ref<"new" | "old" | "top" | "bottom">("new");
@@ -222,8 +222,8 @@ const getReviews = async (search: string) => {
   let countAr = 0;
   arMedia.forEach((el, id) => {
     if (
-      (el[1] == "photo" && el[6] == 5 && id < 50) ||
-      (el[1] == "video" && el[5] == 5 && id < 7)
+      (el[1] == "photo" && el[6] == 5 && id < 50) 
+      //(el[1] == "video" && el[5] == 5 && id < 7)
     ) {
       el[0] = countAr;
       newAr.push(el);
@@ -236,7 +236,7 @@ const getReviews = async (search: string) => {
   reviews.value = reviewContent;
 };
 
-const onViewSwiper = () =>{
+const onNewReview = () =>{
   viewSwiper.value = !viewSwiper.value
 }
 
@@ -249,20 +249,21 @@ const onViewMore = () =>{
 <template>
   <div id="sp-product-reviews-widget">
     <div class="sp-heading">Отзывы для {{ title }}</div>
-    <div class="wrap-block-media-reviews" @click="onViewSwiper">
+    <div class="wrap-block-media-reviews" >
       <Media
         v-for="item of mediaCutArMedia[0]"
         :key="item[0]"
         :item="item"
         :media="mediaCutArMedia[1]"
       />
+    
     </div>
-    <div class="wrap-review-modal" v-if="viewSwiper">
-      <div class="btn-close-modal-review" @click="onViewSwiper">
+    <div class="wrap-review-modal " v-if="viewSwiper" >
+      <div class="btn-close-modal-review" @click="onNewReview">
         <i class="line-close one"></i>
         <i class="line-close two"></i>
       </div>
-      <SwiperMedia :items="mediaCutArMedia[0]" />
+      <NewReview :title="title" />
     </div>
     <div class="sp-widget-content">
       <!-- Summary -->
@@ -294,6 +295,7 @@ const onViewMore = () =>{
               class="sp-summary-actions-primary-button"
               type="button"
               data-sp-surveybox=""
+              @click="onNewReview"
             >
               Оставить отзыв
             </button>
