@@ -236,7 +236,9 @@ const getReviews = async (search: string) => {
 };
 
 const onViewSwiper = () =>{
-  viewSwiper.value = !viewSwiper
+  console.log(viewSwiper);
+  
+  viewSwiper.value = !viewSwiper.value
 }
 
 getReviews(title);
@@ -245,7 +247,7 @@ getReviews(title);
 <template>
   <div id="sp-product-reviews-widget">
     <div class="sp-heading">Отзывы для {{ title }}</div>
-    <div class="wrap-block-media-reviews">
+    <div class="wrap-block-media-reviews" @click="onViewSwiper">
       <Media
         v-for="item of mediaCutArMedia[0]"
         :key="item[0]"
@@ -253,7 +255,7 @@ getReviews(title);
         :media="mediaCutArMedia[1]"
       />
     </div>
-    <div style=" ;position: fixed; width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center; top: 0; left: 0; background: #222222c0; z-index: 999;">
+    <div v-if="viewSwiper" style=" ;position: fixed; width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center; top: 0; left: 0; background: #222222c0; z-index: 999;">
 
       <SwiperMedia :items="mediaCutArMedia[0]" />
     </div>

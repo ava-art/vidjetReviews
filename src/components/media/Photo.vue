@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 const props = defineProps({
   item: {
     type: Object,
@@ -9,21 +8,33 @@ const props = defineProps({
   media: {
     type: Number,
   },
+  
 });
-
-
 
 </script>
 
 <template>
-  <a
-    v-if="item[1] == 'photo' && item[5] == 'Ozon'"
-    data-fancybox="gallery-media"
-    :data-caption="
-      '&lt;center&gt;' + item[4] + '&lt;br /&gt;' + item[3] + '&lt;/center&gt;'
-    "
-    :href="'https://ava-site.ru/reviews/photos/' + item[2] + '.jpeg'"
-  >
+  <div v-if="item[1] == 'photo' && item[5] == 'Ozon'"  >
+    <div
+      v-if="item[1] == 'photo' && item[0] < 7"
+      class="block-media-review"
+      :style="{
+        background:
+          'url(https://ava-site.ru/reviews/photos/webp/' + item[2] + '.webp',
+      }"
+    ></div>
+    <div
+      v-if="item[1] == 'photo' && item[0] === 7"
+      class="block-media-review"
+      :style="{
+        background:
+          'url(https://ava-site.ru/reviews/photos/webp/' + item[2] + '.webp',
+      }"
+    >
+      <div class="more-media-review">+{{ media }}</div>
+    </div>
+  </div>
+  <div v-if="item[1] == 'photo' && item[5] == 'Yandex'">
     <div
       v-if="item[1] == 'photo' && item[0] < 7"
       class="block-media-review"
@@ -43,41 +54,5 @@ const props = defineProps({
     >
       <div class="more-media-review">+{{ media }}</div>
     </div>
-    <div
-      v-if="item[1] == 'photo' && item[0] > 7"
-      class="block-media-review hidden"
-    ></div>
-  </a>
-  <a
-    v-if="item[1] == 'photo' && item[5] == 'Yandex'"
-    data-fancybox="gallery-media"
-    :data-caption="
-      '&lt;center&gt;' + item[4] + '&lt;br /&gt;' + item[3] + '&lt;/center&gt;'
-    "
-    :href="'https://ava-site.ru/reviews/photos/webp/' + item[2] + '.webp'"
-  >
-    <div
-      v-if="item[1] == 'photo' && item[0] < 7"
-      class="block-media-review"
-      :style="{
-        background:
-          'url(https://ava-site.ru/reviews/photos/webp/' + item[2] + '.webp',
-      }"
-    ></div>
-
-    <div
-      v-if="item[1] == 'photo' && item[0] === 7"
-      class="block-media-review"
-      :style="{
-        background:
-          'url(https://ava-site.ru/reviews/photos/webp/' + item[2] + '.webp',
-      }"
-    >
-      <div class="more-media-review">+{{ media }}</div>
-    </div>
-    <div
-      v-if="item[1] == 'photo' && item[0] > 7"
-      class="block-media-review hidden"
-    ></div>
-  </a>
+  </div>
 </template>

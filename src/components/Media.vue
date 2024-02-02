@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { Fancybox } from "@fancyapps/ui";
-import "@fancyapps/ui/dist/fancybox/fancybox.css";
 import Video from "/src/components/media/Video.vue";
 import Photo from "/src/components/media/Photo.vue";
 
@@ -12,12 +10,9 @@ const props = defineProps({
   },
   media: {
     type: Number
-  },
+  }
 });
 
-Fancybox.bind("[data-fancybox]", {
-  // Your custom options
-});
 </script>
 
 <template>
