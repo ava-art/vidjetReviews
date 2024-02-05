@@ -65,6 +65,7 @@ const parseDateStringToTimestamp = (
 const url = `https://ava-site.ru/reviews/test.php?item=`;
 
 const title = document.getElementById("title").innerHTML;
+const nameUser = document.getElementById("name-user").innerHTML;
 const clientBuyThis = Number(
   document.getElementById("client-buy-this").innerHTML
 );
@@ -263,7 +264,7 @@ const onViewMore = () =>{
         <i class="line-close one"></i>
         <i class="line-close two"></i>
       </div>
-      <NewReview :title="title" />
+      <NewReview :name="nameUser" :title="title" />
     </div>
     <div class="sp-widget-content">
       <!-- Summary -->
