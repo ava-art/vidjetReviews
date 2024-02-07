@@ -12,6 +12,7 @@ const props = defineProps({
   },
 });
 
+
 const soglasie = ref(true);
 const reviewItem = ref({
   name: props.name,
@@ -59,8 +60,26 @@ const onMouseout = () => {
   });
 };
 
-const onSubmit = () => {
-  console.log(reviewItem.value);
+const uploadPhoto = async (file)=>{
+  var data = new FormData();
+  data.append("file", file);
+  
+  try {
+
+    const res = await fetch("https://ava-site.ru/reviews/upload-photo.php", {
+      method: "post",
+      body: data,
+    });
+    const datas = await res.text();
+    
+    reviewItem.photo = datas;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const onSubmit = async () => {
+  
 };
 </script>
 
@@ -191,12 +210,18 @@ const onSubmit = () => {
                       <div class="sp-input-errors sp-input-no-errors"></div>
                     </div>
                     <div class="sp-review-photos">
+                      <div v-if="reviewItem.photo">
+                        <img width="50" height="80" :src="'https://ava-site.ru/review/'+reviewItem.photo" alt="">
+                      </div>
                       <div class="sp-media-files-add sp-gt-xs">
+
                         <div>
                           <input
                             @input="
-                              (event) => (reviewItem.photo = event.target.files[0])
+                              (event) =>
+                                (reviewItem.photo = event.target.files[0])
                             "
+                            @change="(e) => uploadPhoto(e.target.files[0])"
                             id="fileUploadReview"
                             class="hidden"
                             type="file"
@@ -207,7 +232,10 @@ const onSubmit = () => {
                             @click="chooseFiles()"
                             sp-media-files-add-button="true"
                             class="sp-media-files-add-icon sp-dz-clickable"
-                          ></button>
+                            
+                          >
+                          <img src="#" alt="">
+                        </button>
                           <span class="sp-media-files-add-hint"
                             >Добавте фото</span
                           >
@@ -235,7 +263,7 @@ const onSubmit = () => {
                   id="sp-element-6"
                   type="text"
                   placeholder="Ваше имя"
-                  :value="name"
+                  :value="reviewItem.name ? reviewItem.name : name"
                   @input="(event) => (reviewItem.name = event.target.value)"
                   class="sp-input"
                 />
@@ -267,7 +295,9 @@ const onSubmit = () => {
         <div class="sp-page-footer sp-review-form-actions">
           <div class="sp-page-footer-content">
             <button
-              v-if="soglasie"
+              v-if="
+                soglasie && reviewItem.star > 0 && (reviewItem.name || name)
+              "
               type="button"
               class="sp-review-form-save sp-button sp-primary sp-raised"
               @click="onSubmit"
@@ -280,3 +310,7 @@ const onSubmit = () => {
     </div>
   </div>
 </template>
+
+<style>
+
+</style>
