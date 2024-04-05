@@ -70,15 +70,10 @@ const parseDateStringToTimestamp = (
   return null;
 };
 
-const url = `https://ava-site.ru/reviews/test.php?item=`;
+const url = `https://ava-site.ru/reviews/hiberg/test.php?item=`;
 
 const title = document.getElementById("title").innerHTML;
-const nameUser = document.getElementById("name-user").innerHTML;
-const clientBuyThis = Number(
-  document.getElementById("client-buy-this").innerHTML
-);
 
-// reviewStore.getReviews(title);
 
 const reviews = ref<Review[]>([]);
 const rating = ref(0);
@@ -145,7 +140,7 @@ const getReviews = async (search: string) => {
       rating: Number(el.rating),
       dateNum: parseDateStringToTimestamp(el.date) ?? 0,
     }))
-    .filter((el) => el.rating > 3 && el.dateNum > 0);
+    .filter((el) => el.rating > 3 );
 
   reviewContent.forEach((el, id) => {
     rat++;
@@ -241,6 +236,7 @@ const getReviews = async (search: string) => {
   }
 
   mediaCutArMedia.value = [newAr, newAr.length - 8];
+
   reviews.value = reviewContent;
 };
 
@@ -248,7 +244,7 @@ const onNewReview = () => {
   viewSwiper.value = !viewSwiper.value;
 };
 
-getReviews(title);
+getReviews(title.toLowerCase().replace(/-/ig,'').replace(/ /ig, ''));
 const onViewMore = () => {
   countReviews.value = countReviews.value + 20;
 };
@@ -270,7 +266,7 @@ const onViewMore = () => {
         <i class="line-close one"></i>
         <i class="line-close two"></i>
       </div>
-      <NewReview :name="nameUser" :title="title" />
+     
     </div>
     <div class="sp-widget-content">
       <!-- Summary -->
@@ -297,7 +293,7 @@ const onViewMore = () => {
           </div>
 
           <!-- Review form button -->
-          <div class="sp-summary-actions" v-if="clientBuyThis === 1">
+          <!-- <div class="sp-summary-actions" v-if="clientBuyThis === 1">
             <button
               class="sp-summary-actions-primary-button"
               type="button"
@@ -306,7 +302,7 @@ const onViewMore = () => {
             >
               Оставить отзыв
             </button>
-          </div>
+          </div> -->
           <!-- <div
             class="sp-summary-actions not-buy-this"
             v-if="clientBuyThis === 0"
