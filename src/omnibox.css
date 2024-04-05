@@ -700,6 +700,11 @@ html.sp-omnibox-visible.sp-omnibox-mode-activator>body>#sp-omnibox {
 #sp-omnibox .sp-page.sp-error-page .sp-error-name {
     margin: 16px
 }
+.success-review{
+    padding: 20px 16px !important;
+    text-align: center;
+}
+
 
 #sp-omnibox .sp-page.sp-error-page .sp-error-description {
     margin: 16px auto;
@@ -2697,7 +2702,9 @@ html.sp-omnibox-visible.sp-omnibox-mode-activator>body>#sp-omnibox {
 
 #sp-omnibox .sp-review-form-page .sp-review-photos {
     padding: 6px;
-    border-top: 1px dashed rgba(0,0,0,.12)
+    border-top: 1px dashed rgba(0,0,0,.12);
+    display: flex;
+    flex-direction: column;
 }
 
 #sp-omnibox .sp-review-form-page .sp-review-recommended {

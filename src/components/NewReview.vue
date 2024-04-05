@@ -12,12 +12,13 @@ const props = defineProps({
   },
 });
 
-
 const soglasie = ref(true);
+const sendReview = ref(2);
 const reviewItem = ref({
   name: props.name,
   title: props.title,
   star: 0,
+  new: 0,
   comment: "",
   plus: "",
   minus: "",
@@ -60,26 +61,35 @@ const onMouseout = () => {
   });
 };
 
-const uploadPhoto = async (file)=>{
+const uploadPhoto = async (file) => {
   var data = new FormData();
   data.append("file", file);
-  
-  try {
 
+  try {
     const res = await fetch("https://ava-site.ru/reviews/upload-photo.php", {
       method: "post",
       body: data,
     });
     const datas = await res.text();
-    
-    reviewItem.photo = datas;
+    reviewItem.value.photo = datas;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 const onSubmit = async () => {
-  
+  try {
+    const res = await fetch("https://ava-site.ru/reviews/add-new-review.php", {
+      method: "post",
+      body: JSON.stringify(reviewItem.value),
+    });
+    const data = await res.json();
+    sendReview.value = data;
+
+
+  } catch (error) {
+    console.log(error);
+  }
 };
 </script>
 
@@ -97,7 +107,31 @@ const onSubmit = async () => {
               </div>
             </div>
           </div>
-          <div class="sp-page-content sp-review-form sp-scrollable">
+          <div
+            class="sp-page-content sp-review-form sp-scrollable success-review"
+
+            v-if="sendReview == 1"
+          >
+          <div>
+            Ваш отзыв успешно отправлен!<br>
+            После проверки он появится на сайте.<br>
+            Благодарим за доверие!
+          </div>
+        </div>
+          <div
+            class="sp-page-content sp-review-form sp-scrollable"
+            v-if="sendReview == 0"
+          >
+          <div>
+            Произошла ошибка.<br>
+            Попробуйте снова или обратитесь в службу поддержки.<br>
+            Благодарим за выбор NORDFROST!
+          </div>
+        </div>
+          <div
+            class="sp-page-content sp-review-form sp-scrollable"
+            v-if="sendReview == 2"
+          >
             <div class="sp-review-form-inputs">
               <div
                 class="sp-input-container sp-rating-stars-input-container sp-review-rating-detail sp-0-stars"
@@ -211,10 +245,19 @@ const onSubmit = async () => {
                     </div>
                     <div class="sp-review-photos">
                       <div v-if="reviewItem.photo">
-                        <img width="50" height="80" :src="'https://ava-site.ru/review/'+reviewItem.photo" alt="">
+                        <img
+                          style="max-width: 50px"
+                          width="50"
+                          height="80"
+                          :src="
+                            'https://ava-site.ru/reviews/photos/webp/' +
+                            reviewItem.photo +
+                            '.webp'
+                          "
+                          alt=""
+                        />
                       </div>
                       <div class="sp-media-files-add sp-gt-xs">
-
                         <div>
                           <input
                             @input="
@@ -232,10 +275,9 @@ const onSubmit = async () => {
                             @click="chooseFiles()"
                             sp-media-files-add-button="true"
                             class="sp-media-files-add-icon sp-dz-clickable"
-                            
                           >
-                          <img src="#" alt="">
-                        </button>
+                            <img src="#" alt="" />
+                          </button>
                           <span class="sp-media-files-add-hint"
                             >Добавте фото</span
                           >
@@ -296,7 +338,7 @@ const onSubmit = async () => {
           <div class="sp-page-footer-content">
             <button
               v-if="
-                soglasie && reviewItem.star > 0 && (reviewItem.name || name)
+                soglasie && reviewItem.star > 0 && (reviewItem.name || name) && sendReview == 2
               "
               type="button"
               class="sp-review-form-save sp-button sp-primary sp-raised"
@@ -311,6 +353,4 @@ const onSubmit = async () => {
   </div>
 </template>
 
-<style>
-
-</style>
+<style></style>

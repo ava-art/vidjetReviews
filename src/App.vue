@@ -8,7 +8,6 @@ import "./style.css";
 import { computed, getCurrentInstance, ref } from "vue";
 import NewReview from "./components/NewReview.vue";
 
-
 // const reviewStore = useReviewStore();
 
 export interface Review {
@@ -47,11 +46,20 @@ const parseDateStringToTimestamp = (
         "декабря",
       ];
 
-      const monthIndex = months.indexOf(month);
+      let monthIndex = months.indexOf(month);
 
-      const dateObject = new Date(Number(year), monthIndex, Number(day));
-
-      return dateObject.getTime();
+      if (monthIndex == -1) {
+        let [year, month, day] = dateString.split("-");
+        if (Number(month) < 10) {
+          month = month.replace("0", "");
+        }
+        monthIndex = months.indexOf(months[Number(month)]);
+        const dateObject = new Date(Number(year), monthIndex, Number(day));
+        return dateObject.getTime();
+      } else {
+        const dateObject = new Date(Number(year), monthIndex, Number(day));
+        return dateObject.getTime();
+      }
     } catch (error) {
       console.error("Ошибка при парсинге даты:", error);
 
@@ -115,19 +123,15 @@ const getReviews = async (search: string) => {
   const res = await fetch(`${url}${search}`);
   const data = await res.json();
 
-  let reviewContentOzon = JSON.parse(data[0].content);
-  let reviewContentYandex = JSON.parse(data[1].content);
   let midRating = 0;
   let rat = 0;
   let video = [];
   let photo = [];
   let cutArMedia = [];
   let reviewContent: Review[] = [];
-
-  if (reviewContentOzon === null) reviewContentOzon = [];
-  if (reviewContentYandex === null) reviewContentYandex = [];
-  if (reviewContentOzon && reviewContentYandex)
-    reviewContent = [...reviewContentOzon, ...reviewContentYandex];
+  Object.entries(data).forEach((el) => {
+    reviewContent.push(el[1]);
+  });
 
   reviewContent = reviewContent
     .filter(
@@ -147,10 +151,6 @@ const getReviews = async (search: string) => {
     rat++;
     el.id = id;
     midRating += el.rating;
-
-    if (!el.marketplace) {
-      el.marketplace = "Ozon";
-    }
   });
 
   const onePercent = 100 / rat;
@@ -223,7 +223,9 @@ const getReviews = async (search: string) => {
   let countAr = 0;
   arMedia.forEach((el, id) => {
     if (
-      (el[1] == "photo" && el[6] == 5 && id < 50) 
+      el[1] == "photo" &&
+      el[6] == 5 &&
+      id < 50
       //(el[1] == "video" && el[5] == 5 && id < 7)
     ) {
       el[0] = countAr;
@@ -232,34 +234,38 @@ const getReviews = async (search: string) => {
     }
   });
 
+  if (middleRating.value > 0){
+    document.getElementById('wrap-element-rating-top').style.removeProperty('visibility')
+    document.getElementById('element-rating-number').innerHTML = middleRating.value
+    document.getElementById('element-rating-count').innerHTML = rating.value
+  }
 
   mediaCutArMedia.value = [newAr, newAr.length - 8];
   reviews.value = reviewContent;
 };
 
-const onNewReview = () =>{
-  viewSwiper.value = !viewSwiper.value
-}
+const onNewReview = () => {
+  viewSwiper.value = !viewSwiper.value;
+};
 
 getReviews(title);
-const onViewMore = () =>{
-  countReviews.value = countReviews.value + 20
-}
+const onViewMore = () => {
+  countReviews.value = countReviews.value + 20;
+};
 </script>
 
 <template>
   <div id="sp-product-reviews-widget">
     <div class="sp-heading">Отзывы для {{ title }}</div>
-    <div class="wrap-block-media-reviews" >
+    <div class="wrap-block-media-reviews">
       <Media
         v-for="item of mediaCutArMedia[0]"
         :key="item[0]"
         :item="item"
         :media="mediaCutArMedia[1]"
       />
-    
     </div>
-    <div class="wrap-review-modal " v-if="viewSwiper" >
+    <div class="wrap-review-modal" v-if="viewSwiper">
       <div class="btn-close-modal-review" @click="onNewReview">
         <i class="line-close one"></i>
         <i class="line-close two"></i>
@@ -301,13 +307,13 @@ const onViewMore = () =>{
               Оставить отзыв
             </button>
           </div>
-          <div
+          <!-- <div
             class="sp-summary-actions not-buy-this"
             v-if="clientBuyThis === 0"
           >
             Мы не нашли данный товар среди ваших покупок. Вы можете оставлять
             отзыв только к товарам, которые приобретали на nordfrost.ru.
-          </div>
+          </div> -->
         </div>
       </div>
 
@@ -323,7 +329,13 @@ const onViewMore = () =>{
               :index="index"
             />
           </div>
-          <div class="review-view-more" @click="onViewMore" v-if="rating > countReviews">Показать ещё</div>
+          <div
+            class="review-view-more"
+            @click="onViewMore"
+            v-if="rating > countReviews"
+          >
+            Показать ещё
+          </div>
         </div>
 
         <div class="sp-content-summary">

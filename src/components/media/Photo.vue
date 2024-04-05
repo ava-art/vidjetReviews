@@ -11,11 +11,13 @@ const props = defineProps({
 
 });
 
+
 </script>
 
 <template>
   <a
-    v-if="item[1] == 'photo' && item[5] == 'Ozon'"
+    v-if="(item[1] == 'photo' && item[5] == 'Ozon') ||
+    (item[1] == 'photo' && item[5] == 'Site')"
     data-fancybox="gallery-media"
     :href="'https://ava-site.ru/reviews/photos/' + item[2] + '.jpeg'"
   >
